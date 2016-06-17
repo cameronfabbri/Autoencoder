@@ -3,11 +3,11 @@ data_dir = "/home/fabbric/data_dir"
 #data_dir = "/mnt/data3/data_dir"
 
 # specific dataset. assumes data_dir/dataset/images
-dataset  = "birds_2011"
+dataset  = "coco"
 
 #
-train_perc = 1
-test_perc  = 0
+train_perc = .9
+test_perc  = .1
 
 # model checkpoint path
 checkpoint_dir = "../models/"
@@ -19,6 +19,6 @@ batch_size = 30
 
 # the number of classes in the dataset. This will be the amount of nodes
 # in the last layer
-num_classes = 200
+num_classes = 1
 
 result_file = "/home/fabbric/data_dir/birds_2011/results.txt"

@@ -58,39 +58,22 @@ def train():
          print "Step: " + str(step) + " Loss: " + str(loss_value)
 
          # save for tensorboard
+         
          if step%1000 == 0 and step != 0:
             summary_str = sess.run(summary_op)
             summary_writer.add_summary(summary_str, step)
 
-
-            # display images
-           
-            #scipy.misc.imsave('/home/fabbric/data_dir/birds_2011/real/image-'+step+'.jpg', imgs)
-            #scipy.misc.imsave('/home/fabbric/data_dir/birds_2011/generated/image-'+step+'.jpg', generated_image)
-            c = 0
-            for im, gen in zip(imgs, generated_image):
-               im = np.uint8(im)
-               gen = np.uint8(gen)
-               cv2.imshow('img', im)
-               cv2.imshow('gen', gen)
-               cv2.waitKey(0)
-               cv2.destroyAllWindows()
-               if c == 5:
-                  continue
-               c += 1
-               #real = Image.fromarray(im)
-               #real.save('/home/fabbric/data_dir/birds_2011/real/image-'+step+'.jpg')
-            
-               #gen = Image.fromarray(generated_image)
-               #gen.save('/home/fabbric/data_dir/birds_2011/generated/image-'+step+'.jpg')
-
-            # write out the real image and the generated one to a file
-            #with open(config.result_file, "a") as rf:
-            #   print "\nWriting to results file...\n"
-            #   for num in imgs:
-            #      print num
-            #   exit()
-            #   rf.write(str(imgs)+"|"+str(generated_image)+"\n")
+            #c = 0
+            #for im, gen in zip(imgs, generated_image):
+            #   im = np.uint8(im)
+            #   gen = np.uint8(gen)
+            #   cv2.imshow('img', im)
+            #   cv2.imshow('gen', gen)
+            #   cv2.waitKey(0)
+            #   cv2.destroyAllWindows()
+            #   if c == 5:
+            #      continue
+            #   c += 1
 
          if step%1000 == 0:
             saver.save(sess, checkpoint_dir+"training", global_step=step)
