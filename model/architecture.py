@@ -82,8 +82,6 @@ def _fc_layer(inputs, hiddens, idx, flat = False, linear = False):
 def deconv(inputs, stride, out_shape, kernel_size, num_features, idx):
    with tf.variable_scope('fc{0}'.format(idx)) as scope:
       input_channels = inputs.get_shape()[3]
-      print inputs.get_shape()
-      print 'input channels: ', input_channels 
 
       filter_ = _variable_with_weight_decay('weights', shape=[kernel_size, kernel_size, num_features, input_channels], stddev=0.1, wd=FLAGS.weight_decay)
       strides=[1, stride, stride, 1]

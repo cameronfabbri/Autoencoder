@@ -20,3 +20,5 @@ batch_size = 30
 # the number of classes in the dataset. This will be the amount of nodes
 # in the last layer
 num_classes = 200
+
+result_file = "/home/fabbric/data_dir/birds_2011/results.txt"

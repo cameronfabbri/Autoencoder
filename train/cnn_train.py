@@ -2,6 +2,8 @@ import tensorflow as tf
 import numpy as np
 import os
 import sys
+import numpy as np
+import cv2
 
 sys.path.insert(0, '../utils/')
 sys.path.insert(0, '../inputs/')
@@ -10,6 +12,7 @@ sys.path.insert(0, '../model/')
 import config
 import input_
 import architecture
+import Image
 
 checkpoint_dir = config.checkpoint_dir
 batch_size = config.batch_size
@@ -20,7 +23,7 @@ def train():
       global_step = tf.Variable(0, trainable=False)
 
       images = input_.inputs("train", batch_size)
-      images = tf.div(images, 255)
+      #images = tf.div(images, 255)
 
       logits = architecture.inference(images, "train")
 
@@ -50,15 +53,44 @@ def train():
       tf.train.start_queue_runners(sess=sess)
 
       for step in xrange(10000):
-         _, loss_value, logs, imgs = sess.run([train_op, loss, logits, images])
+         _, loss_value, generated_image, imgs = sess.run([train_op, loss, logits, images])
          #print logs
-         print imgs
          print "Step: " + str(step) + " Loss: " + str(loss_value)
 
          # save for tensorboard
-         if step%100 == 0:
+         if step%1000 == 0 and step != 0:
             summary_str = sess.run(summary_op)
             summary_writer.add_summary(summary_str, step)
+
+
+            # display images
+           
+            #scipy.misc.imsave('/home/fabbric/data_dir/birds_2011/real/image-'+step+'.jpg', imgs)
+            #scipy.misc.imsave('/home/fabbric/data_dir/birds_2011/generated/image-'+step+'.jpg', generated_image)
+            c = 0
+            for im, gen in zip(imgs, generated_image):
+               im = np.uint8(im)
+               gen = np.uint8(gen)
+               cv2.imshow('img', im)
+               cv2.imshow('gen', gen)
+               cv2.waitKey(0)
+               cv2.destroyAllWindows()
+               if c == 5:
+                  continue
+               c += 1
+               #real = Image.fromarray(im)
+               #real.save('/home/fabbric/data_dir/birds_2011/real/image-'+step+'.jpg')
+            
+               #gen = Image.fromarray(generated_image)
+               #gen.save('/home/fabbric/data_dir/birds_2011/generated/image-'+step+'.jpg')
+
+            # write out the real image and the generated one to a file
+            #with open(config.result_file, "a") as rf:
+            #   print "\nWriting to results file...\n"
+            #   for num in imgs:
+            #      print num
+            #   exit()
+            #   rf.write(str(imgs)+"|"+str(generated_image)+"\n")
 
          if step%1000 == 0:
             saver.save(sess, checkpoint_dir+"training", global_step=step)
