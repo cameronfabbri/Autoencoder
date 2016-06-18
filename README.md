@@ -1,6 +1,6 @@
 # Convolutional Neural Network Autoencoder
 
-This is an attempt to create an (https://en.wikipedia.org/wiki/Autoencoder)[autoencoder and decoder]
+This is an attempt to create an (autoencoder and decoder)[https://en.wikipedia.org/wiki/Autoencoder]
 using a convolutional neural network. 
 
 
