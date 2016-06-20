@@ -1,0 +1,51 @@
+<!-- Cameron Fabbri, 2016. Simple index page for viewing autoencoder results -->
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Autoencoder Results</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.3.0/prototype.js"></script>
+   </head>
+
+   <body>
+   <script type="text/javascript">
+
+      var dir = "./";
+      var ext = ".png";
+
+      /*
+      $.ajax({
+         url: dir,
+         success: function(data) {
+            $(data).find("a:contains("+ext+")").each(function (){
+               //var filename = this.href.replace(window.location.host, "").replace("http://", "");
+               var filename = this.href.replace(window.location, "").replace("http://", "");
+               $("body").append("<img src='"+dir+filename+"'>");
+            });
+         }
+      });
+
+var dir = "./";
+var fileextension = ".png";
+$.ajax({
+    //This will retrieve the contents of the folder if the folder is configured as 'browsable'
+    url: dir,
+    success: function (data) {
+        //List all .png file names in the page
+        $(data).find("a:contains(" + fileextension + ")").each(function () {
+            var filename = this.href.replace(window.location.host, "").replace("http://", "");
+            $("body").append("<img src='" + dir + filename + "'>");
+        });
+    }
+});
+*/
+   </script>
+
+
+   </body>
+
+
+</html>
+
+
+
