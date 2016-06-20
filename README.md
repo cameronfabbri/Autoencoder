@@ -24,7 +24,9 @@ has not seen these images before.
 
 | Original image | Generated Image |
 |----------------|:---------------:|
-|![im](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/im-0.png?raw=true)|:![gen](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/gen-0.png?raw=true):|
-
+|![im](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/im-0.png?raw=true)|![gen](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/gen-0.png?raw=true)|
+|![im](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/im-1.png?raw=true)|![gen](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/gen-1.png?raw=true)|
+|![im](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/im-2.png?raw=true)|![gen](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/gen-2.png?raw=true)|
+|![im](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/im-3.png?raw=true)|![gen](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/gen-3.png?raw=true)|
 
 
