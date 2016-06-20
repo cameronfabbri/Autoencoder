@@ -50,24 +50,27 @@ def eval():
             tf.train.start_queue_runners(sess=sess)
             threads = []
 
+            s = 0
             for q in tf.get_collection(tf.GraphKeys.QUEUE_RUNNERS):
                threads.extend(q.create_threads(sess, coord=coord, daemon=True, start=True))
 
                imgs, gen_imgs = sess.run([images, logits])
-
                for im, gen in zip(imgs, gen_imgs):
                   im = np.uint8(im)
                   im = cv2.resize(im, (200, 200))
                   gen = np.uint8(gen)
                   gen = cv2.resize(gen, (200, 200))
-                  cv2.imshow('im', im)
-                  cv2.imshow('gen', gen)
-                  #sleep(5)
-                  cv2.waitKey(0)
-                  #a = raw_input(": ")
-                  #if a == "q":
-                  #   exit()
-                  cv2.destroyAllWindows()
+
+                  result = np.hstack((im, gen))
+                  #cv2.imshow('result', result)
+                  #cv2.waitKey(0)
+                  #cv2.destroyAllWindows()
+
+                  cv2.imwrite('../evaluations/images/image-'+str(s)+'.png', result)
+                  s += 1
+                  if s == int(sys.argv[1]):
+                     print "Done"
+                     exit()
 
          except Exception as e:
             print "Error"
@@ -83,4 +86,10 @@ def main(argv=None):
    eval()
 
 if __name__ == "__main__":
+
+   if len(sys.argv) < 2:
+      print "Usage: python eval.py [num_images]"
+      print "Give the number of images to test as an arg"
+      exit()
+
    tf.app.run()
