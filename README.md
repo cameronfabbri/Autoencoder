@@ -22,9 +22,9 @@ test results can be seen below after about 20,000 iterations. The original image
 image the system is trying to create from the 256 dimensional vector it is given. The system
 has not seen these images before.
 
-Original image
-![im](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/im-0.png?raw=true)
+| Original image | Generated Image |
+|----------------|:---------------:|
+|![im](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/im-0.png?raw=true)|:![gen](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/gen-0.png?raw=true):|
 
-Generated image
-![gen](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/gen-0.png?raw=true)
+
 
