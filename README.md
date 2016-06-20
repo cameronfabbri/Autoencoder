@@ -11,6 +11,20 @@ A model of the graph using `Tensorboard` can be seen below.
 
 ![Graph](https://raw.githubusercontent.com/cameronfabbri/Autoencoder/master/graph.png)
 
+## Training
+Training was done on the ![Microsoft COCO Dataset](http://mscoco.org/) which included around
+82,000 images.
+
 ## Testing
 
-Coming soon..
+Tests were done on a holdout set of the COCO dataset that held about 40,000 images. A few
+test results can be seen below after about 20,000 iterations. The original image is the
+image the system is trying to create from the 256 dimensional vector it is given. The system
+has not seen these images before.
+
+Original image
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/im-0.png?raw=true)
+
+Generated image
+![gen](https://github.com/cameronfabbri/Autoencoder/blob/master/evaluations/images/gen-0.png?raw=true)
+
