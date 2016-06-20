@@ -6,29 +6,38 @@ Evaluation by just looking at the original image and the resulting image from th
 
 """
 
-
+import tensorflow as tf
 import cv2
 import sys
+import numpy as np
 
 sys.path.insert(0, '../utils/')
+sys.path.insert(0, '../inputs/')
+sys.path.insert(0, '../model/')
+
 import config
+import input_
+import architecture
+import Image
 
 result_file = config.result_file
+batch_size = config.batch_size
+eval_dir = config.eval_dir
+checkpoint_dir = config.checkpoint_dir
 
-if __name__ == "__main__":
+def eval():
    with tf.Graph().as_default() as graph:
 
-      images = input_.inputs("test", batch_size, 1)
+      images = input_.inputs("test", batch_size)
 
-      #sess = tf.Session()
-
-      variables_to_restore = tf.all_variables()
-
-      saver = tf.train.Saver(variables_to_restore)
-
-      summary_op = tf.werge_all_summaries()
+      summary_op = tf.merge_all_summaries()
 
       summary_writer = tf.train.SummaryWriter(eval_dir, graph)
+
+      logits = architecture.inference(images, "test")
+   
+      variables_to_restore = tf.all_variables()
+      saver = tf.train.Saver(variables_to_restore)
 
       with tf.Session() as sess:
 
@@ -36,7 +45,7 @@ if __name__ == "__main__":
          saver.restore(sess, ckpt.model_checkpoint_path)
 
          global_step = ckpt.model_checkpoint_path.split('/')[-1].split('-')[-1]
-         coord = tf.train.Coordinator()
+         coord = tf.train.Coordinator() 
 
          try:
             tf.train.start_queue_runners(sess=sess)
@@ -45,9 +54,28 @@ if __name__ == "__main__":
             for q in tf.get_collection(tf.GraphKeys.QUEUE_RUNNERS):
                threads.extend(q.create_threads(sess, coord=coord, daemon=True, start=True))
 
-               num_iter = int(math.ceil(num_examples/batch_size))
+               imgs, gen_imgs = sess.run([images, logits])
 
-               _, loss_value, generated_image, imgs = sess.run([train_op, loss, logits, images])
+               for im, gim in zip(imgs, gen_imgs):
+                  im = np.uint8(im)
+                  gen = np.uint8(gim)
+                  cv2.imshow('im', im)
+                  cv2.imshow('gim', gim)
+                  cv2.waitKey(0)
+                  cv2.destroyAllWindows()
+
+         except Exception as e:
+            print "Error"
+            raise(e)
+            coord.request_stop(e)
+            exit()
+
+      coord.request_stop()
+      coord.join(threads, stop_grace_period_secs=10)
 
 
+def main(argv=None):
+   eval()
 
+if __name__ == "__main__":
+   tf.app.run()

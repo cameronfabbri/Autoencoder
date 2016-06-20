@@ -30,7 +30,7 @@ def train():
       # loss is the l2 norm of my input vector (the image) and the output vector
       loss = architecture.loss(images, logits)
       
-      train_op = tf.train.AdamOptimizer(learning_rate=0.00001).minimize(loss)
+      train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(loss)
 
       variables = tf.all_variables()
 
@@ -52,30 +52,34 @@ def train():
       
       tf.train.start_queue_runners(sess=sess)
 
-      for step in xrange(10000):
+      #for step in xrange(10000):
+      step = 0
+      while True:
+         step += 1
          _, loss_value, generated_image, imgs = sess.run([train_op, loss, logits, images])
          #print logs
          print "Step: " + str(step) + " Loss: " + str(loss_value)
 
          # save for tensorboard
-         
          if step%1000 == 0 and step != 0:
             summary_str = sess.run(summary_op)
             summary_writer.add_summary(summary_str, step)
 
             #c = 0
-            #for im, gen in zip(imgs, generated_image):
-            #   im = np.uint8(im)
-            #   gen = np.uint8(gen)
-            #   cv2.imshow('img', im)
-            #   cv2.imshow('gen', gen)
-            #   cv2.waitKey(0)
-            #   cv2.destroyAllWindows()
-            #   if c == 5:
-            #      continue
-            #   c += 1
+            for im, gen in zip(imgs, generated_image):
+               im = np.uint8(im)
+               gen = np.uint8(gen)
+               cv2.imshow('img', im)
+               cv2.imshow('gen', gen)
+               #cv2.waitKey(0)
+               sleep(5)
+               cv2.destroyAllWindows()
+               break
+               #if c == 5:
+               #   continue
+               #c += 1
 
-         if step%1000 == 0:
+            print "Saving model..."
             saver.save(sess, checkpoint_dir+"training", global_step=step)
             
 
