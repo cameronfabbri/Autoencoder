@@ -20,7 +20,6 @@ import input_
 import architecture
 import Image
 
-result_file = config.result_file
 batch_size = config.batch_size
 eval_dir = config.eval_dir
 checkpoint_dir = config.checkpoint_dir
@@ -56,12 +55,18 @@ def eval():
 
                imgs, gen_imgs = sess.run([images, logits])
 
-               for im, gim in zip(imgs, gen_imgs):
+               for im, gen in zip(imgs, gen_imgs):
                   im = np.uint8(im)
-                  gen = np.uint8(gim)
+                  im = cv2.resize(im, (200, 200))
+                  gen = np.uint8(gen)
+                  gen = cv2.resize(gen, (200, 200))
                   cv2.imshow('im', im)
-                  cv2.imshow('gim', gim)
+                  cv2.imshow('gen', gen)
+                  #sleep(5)
                   cv2.waitKey(0)
+                  #a = raw_input(": ")
+                  #if a == "q":
+                  #   exit()
                   cv2.destroyAllWindows()
 
          except Exception as e:

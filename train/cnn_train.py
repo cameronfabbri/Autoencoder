@@ -12,7 +12,7 @@ sys.path.insert(0, '../model/')
 import config
 import input_
 import architecture
-import Image
+import time
 
 checkpoint_dir = config.checkpoint_dir
 batch_size = config.batch_size
@@ -27,7 +27,7 @@ def train():
 
       logits = architecture.inference(images, "train")
 
-      # loss is the l2 norm of my input vector (the image) and the output vector
+      # loss is the l2 norm of my input vector (the image) and the output vector (generated image)
       loss = architecture.loss(images, logits)
       
       train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(loss)
@@ -42,7 +42,7 @@ def train():
       summary_op = tf.merge_all_summaries()
       
       sess.run(init)
-      print "Running session"
+      print "\nRunning session\n"
 
       graph_def = sess.graph.as_graph_def(add_shapes=True)
       summary_writer = tf.train.SummaryWriter(checkpoint_dir+"training", graph_def=graph_def)
@@ -65,22 +65,23 @@ def train():
             summary_str = sess.run(summary_op)
             summary_writer.add_summary(summary_str, step)
 
-            #c = 0
+            print "Saving model..."
+            saver.save(sess, checkpoint_dir+"training", global_step=step)
+            
+            """
+            c = 1
             for im, gen in zip(imgs, generated_image):
                im = np.uint8(im)
                gen = np.uint8(gen)
                cv2.imshow('img', im)
                cv2.imshow('gen', gen)
                #cv2.waitKey(0)
-               sleep(5)
+               time.sleep(5)
                cv2.destroyAllWindows()
-               break
-               #if c == 5:
-               #   continue
-               #c += 1
-
-            print "Saving model..."
-            saver.save(sess, checkpoint_dir+"training", global_step=step)
+               if c == 3:
+                  break
+               c += 1
+            """
             
 
 def main(argv=None):

@@ -32,9 +32,7 @@ def read_and_decode(filename_queue):
 def inputs(type_input, batch_size):
    if type_input == "train":
       filename = data_dir+"/"+dataset+"/records/train.tfrecord"
-   elif type_input == "val":
-      filename = data_dir+"/"+dataset+"/records/val.tfrecord"
-   else:
+   elif type_input == "test":
       filename = data_dir+"/"+dataset+"/records/test.tfrecord"
 
    filename_queue = tf.train.string_input_producer([filename])
