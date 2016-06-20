@@ -51,26 +51,27 @@ def eval():
             threads = []
 
             s = 0
-            for q in tf.get_collection(tf.GraphKeys.QUEUE_RUNNERS):
-               threads.extend(q.create_threads(sess, coord=coord, daemon=True, start=True))
+            while not coord.should_stop():
+               for q in tf.get_collection(tf.GraphKeys.QUEUE_RUNNERS):
+                  threads.extend(q.create_threads(sess, coord=coord, daemon=True, start=True))
 
-               imgs, gen_imgs = sess.run([images, logits])
-               for im, gen in zip(imgs, gen_imgs):
-                  im = np.uint8(im)
-                  im = cv2.resize(im, (200, 200))
-                  gen = np.uint8(gen)
-                  gen = cv2.resize(gen, (200, 200))
+                  imgs, gen_imgs = sess.run([images, logits])
+                  for im, gen in zip(imgs, gen_imgs):
+                     im = np.uint8(im)
+                     im = cv2.resize(im, (200, 200))
+                     gen = np.uint8(gen)
+                     gen = cv2.resize(gen, (200, 200))
 
-                  result = np.hstack((im, gen))
-                  #cv2.imshow('result', result)
-                  #cv2.waitKey(0)
-                  #cv2.destroyAllWindows()
-
-                  cv2.imwrite('../evaluations/images/image-'+str(s)+'.png', result)
-                  s += 1
-                  if s == int(sys.argv[1]):
-                     print "Done"
-                     exit()
+                     result = np.hstack((im, gen))
+                     #cv2.imshow('result', result)
+                     #cv2.waitKey(0)
+                     #cv2.destroyAllWindows()
+                     print "Step: " + str(s)
+                     cv2.imwrite('../evaluations/images/image-'+str(s)+'.png', result)
+                     s += 1
+                     if s == int(sys.argv[1]):
+                        print "Done"
+                        exit()
 
          except Exception as e:
             print "Error"
