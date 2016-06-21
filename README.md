@@ -22,6 +22,7 @@ results at different training steps can be seen below. The image on the left is 
 system is trying to create from the 256 dimensional vector it is given, and the image on the
 right is what it actually creates.
 
+
 ### 1,000 Training Iterations
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_1000/image-0.png?raw=true)
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_1000/image-10.png?raw=true)
@@ -29,6 +30,7 @@ right is what it actually creates.
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_1000/image-14.png?raw=true)
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_1000/image-3.png?raw=true)
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_1000/image-5.png?raw=true)
+
 
 ### 5,000 Training Iterations
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_5000/image-0.png?raw=true)
@@ -38,6 +40,7 @@ right is what it actually creates.
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_5000/image-3.png?raw=true)
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_5000/image-5.png?raw=true)
 
+
 ### About 390,000 Training Iterations
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_390000/image-0.png?raw=true)
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_390000/image-10.png?raw=true)
@@ -45,3 +48,6 @@ right is what it actually creates.
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_390000/image-14.png?raw=true)
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_390000/image-3.png?raw=true)
 ![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_390000/image-5.png?raw=true)
+
+
+Clearly there isn't much of a change between 5,000 iterations and 390,000 iterations.
