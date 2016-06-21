@@ -67,7 +67,6 @@ def train():
 
             print "Saving model..."
             saver.save(sess, checkpoint_dir+"training", global_step=step)
-            exit() 
             """
             c = 1
             for im, gen in zip(imgs, generated_image):
