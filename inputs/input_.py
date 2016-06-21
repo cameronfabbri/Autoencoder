@@ -38,12 +38,15 @@ def inputs(type_input, batch_size):
    filename_queue = tf.train.string_input_producer([filename])
 
    image = read_and_decode(filename_queue)
-
+   '''
    images = tf.train.shuffle_batch([image], 
       batch_size=batch_size, 
-      num_threads=2, 
+      num_threads=5,
       capacity=1000+3*batch_size, 
       min_after_dequeue=1000)
-
+   '''
+   images = tf.train.batch([image],
+      batch_size=batch_size,
+      num_threads=2)
    return images
 

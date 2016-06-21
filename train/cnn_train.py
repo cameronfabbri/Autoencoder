@@ -61,13 +61,13 @@ def train():
          print "Step: " + str(step) + " Loss: " + str(loss_value)
 
          # save for tensorboard
-         if step%1000 == 0 and step != 0:
+         if step%5000 == 0 and step != 0:
             summary_str = sess.run(summary_op)
             summary_writer.add_summary(summary_str, step)
 
             print "Saving model..."
             saver.save(sess, checkpoint_dir+"training", global_step=step)
-            
+            exit() 
             """
             c = 1
             for im, gen in zip(imgs, generated_image):

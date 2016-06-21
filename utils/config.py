@@ -10,6 +10,7 @@ train_perc = .9
 test_perc  = .1
 
 # model checkpoint path
+#checkpoint_dir = "../temp_models/"
 checkpoint_dir = "../models/"
 
 # directory to store evaluation logs
