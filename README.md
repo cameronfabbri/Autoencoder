@@ -18,11 +18,30 @@ Training was done on the ![Microsoft COCO Dataset](http://mscoco.org/) which inc
 ## Testing
 
 Tests were done on a holdout set of the COCO dataset that held about 40,000 images. A few
-test results can be seen below after about 20,000 iterations. The original image is the
-image the system is trying to create from the 256 dimensional vector it is given. The system
-has not seen these images before.
+results at different training steps can be seen below. The image on the left is the image the
+system is trying to create from the 256 dimensional vector it is given, and the image on the
+right is what it actually creates.
 
-| Original image | Generated Image |
-|----------------|:---------------:|
+### 1,000 Training Iterations
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_1000/image-0.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_1000/image-10.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_1000/image-12.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_1000/image-14.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_1000/image-3.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_1000/image-5.png?raw=true)
 
+### 5,000 Training Iterations
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_5000/image-0.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_5000/image-10.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_5000/image-12.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_5000/image-14.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_5000/image-3.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_5000/image-5.png?raw=true)
 
+### About 390,000 Training Iterations
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_390000/image-0.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_390000/image-10.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_390000/image-12.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_390000/image-14.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_390000/image-3.png?raw=true)
+![im](https://github.com/cameronfabbri/Autoencoder/blob/master/test_results/step_390000/image-5.png?raw=true)
