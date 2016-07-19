@@ -34,7 +34,7 @@ def eval():
       summary_writer = tf.train.SummaryWriter(eval_dir, graph)
 
       logits = architecture.inference(images, "test")
-   
+
       variables_to_restore = tf.all_variables()
       saver = tf.train.Saver(variables_to_restore)
 
@@ -44,7 +44,7 @@ def eval():
          saver.restore(sess, ckpt.model_checkpoint_path)
 
          global_step = ckpt.model_checkpoint_path.split('/')[-1].split('-')[-1]
-         coord = tf.train.Coordinator() 
+         coord = tf.train.Coordinator()
 
          try:
             tf.train.start_queue_runners(sess=sess)
