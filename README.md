@@ -1,5 +1,7 @@
 # Convolutional Neural Network Autoencoder
 
+TODO: make the model load a checkpoint if there is one
+
 This is an attempt to create an [autoencoder](https://en.wikipedia.org/wiki/Autoencoder)
 using a convolutional neural network. The network consists of an initial dropout layer and
 three convolutional layers. Three more fully connected layers bring down the image to a
