@@ -6,8 +6,6 @@ import config
 
 FLAGS = tf.app.flags.FLAGS
 
-num_epochs = 100
-
 tf.app.flags.DEFINE_integer('batch_size', config.batch_size,
                             """Number of images to process in a batch.""")
 tf.app.flags.DEFINE_float('weight_decay', 0.0005,
