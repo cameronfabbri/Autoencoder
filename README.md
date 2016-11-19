@@ -1,4 +1,10 @@
-Autoencoder example using tensorflow_ops
+## Autoencoder
+
+An autoencoder that uses convolutions, transpose convolutions, and fully connected layers.
+
+This is implemented in Tensorflow and uses the [tensorflow_ops](https://github.com/cameronfabbri/tensorflow_ops) package for many of the functions.
+
+### Results
 
 10 training steps
 
