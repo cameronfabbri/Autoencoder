@@ -14,9 +14,8 @@ A checkpoint is included in the `checkpoint` folder, and will automatically be l
 
 ### Results
 
-The images on the left are the true images, and on the right are after encoding and decoding.
+The images on the left are the true images, and on the right are after encoding and decoding. This was run on the MNIST test set.
 
-100 Steps (100,000 images seen)
-
+![realimg1](https://github.com/cameronfabbri/Autoencoder/blob/master/images/22900_0real.png?raw=true)![decimg1](https://github.com/cameronfabbri/Autoencoder/blob/master/images/22900_0dec.png?raw=true)
 
 
