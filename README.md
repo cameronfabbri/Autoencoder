@@ -1,23 +1,21 @@
-## Autoencoder
+## MNIST Autoencoder
 
-An autoencoder that uses convolutions, transpose convolutions, and fully connected layers.
+An autoencoder specifically for the MNIST dataset that uses convolutions, transpose convolutions, and fully connected layers.
+
+This compresses the image from 786 dimmensions down to 128.
 
 ## Usage
 ```python
 >>> python autoencoder.py
 ```
 
+Batch size is set to 1000 so you might want to change it depending on your system.
+
 ### Results
 
-10 training steps
+The images on the left are the true images, and on the right are after encoding and decoding.
 
-![10](https://github.com/cameronfabbri/tensorflow_ops/blob/master/examples/images/image_10.png?raw=true)
+100 Steps (100,000 images seen)
 
-1000 training steps
 
-![1000](https://github.com/cameronfabbri/tensorflow_ops/blob/master/examples/images/image_1000.png?raw=true)
-
-20000 training steps
-
-![20000](https://github.com/cameronfabbri/tensorflow_ops/blob/master/examples/images/image_21000.png?raw=true)
 
