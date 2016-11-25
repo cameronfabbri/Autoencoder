@@ -2,6 +2,11 @@
 
 An autoencoder that uses convolutions, transpose convolutions, and fully connected layers.
 
+## Usage
+```python
+>>> python autoencoder.py
+```
+
 ### Results
 
 10 training steps
