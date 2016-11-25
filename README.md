@@ -9,7 +9,8 @@ This compresses the image from 786 dimmensions down to 128.
 >>> python autoencoder.py
 ```
 
-Batch size is set to 1000 so you might want to change it depending on your system.
+This will automatically download the MNIST dataset. Batch size is set to 1000 so you might want to change it depending on your system.
+A checkpoint is included in the `checkpoint` folder, and will automatically be loaded upon running. To train your own, delete the checkpoint.
 
 ### Results
 
