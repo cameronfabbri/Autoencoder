@@ -1,2 +1,5 @@
 mnist.pkl.gz
 temp/
+*.pyc
+*.swp
+*.*~
