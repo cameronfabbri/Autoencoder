@@ -1,8 +1,7 @@
 ## MNIST Autoencoder
 
-An autoencoder specifically for the MNIST dataset that uses convolutions, transpose convolutions, and fully connected layers.
-
-This compresses the image from 786 dimmensions down to 128.
+Just an autoencoder example, specifically for the MNIST dataset.
+This compresses the image from 786 dimmensions down to 8.
 
 ## Usage
 ```python
