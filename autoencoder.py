@@ -1,3 +1,4 @@
+import tensorflow.contrib.slim as slim
 import matplotlib.pyplot as plt
 import cPickle as pickle
 import tensorflow as tf
@@ -7,71 +8,80 @@ import random
 import gzip
 import os
 
-# import the functions we are going to use
-from tf_ops import conv2d, conv2d_transpose, fc_layer, lrelu
-
 batch_size = 1000
 
+'''
+   Leaky RELU
+'''
+def lrelu(x, leak=0.2, name="lrelu"):
+   return tf.maximum(x, leak*x)
+
+
 def encoder(x):
-   # convolutional layer with a leaky Relu activation
-   e_conv1 = lrelu(conv2d(x, 2, 2, 32, 'e_conv1'))
-   print
+   
+   e_conv1 = slim.convolution(x, 32, 2, stride=2, activation_fn=tf.identity, normalizer_fn=slim.batch_norm, scope='e_conv1')
+   e_conv1 = lrelu(e_conv1) 
    print 'conv1: ', e_conv1
 
-   # convolutional layer with a leaky Relu activation
-   e_conv2 = lrelu(conv2d(e_conv1, 2, 2, 64, 'e_conv2'))
+   e_conv2 = slim.convolution(e_conv1, 64, 2, stride=2, activation_fn=tf.identity, normalizer_fn=slim.batch_norm, scope='e_conv2')
+   e_conv2 = lrelu(e_conv2)
    print 'conv2: ', e_conv2
    
    # convolutional layer with a leaky Relu activation
-   e_conv3 = lrelu(conv2d(e_conv2, 2, 2, 32, 'e_conv3'))
+   e_conv3 = slim.convolution(e_conv2, 128, 2, stride=2, activation_fn=tf.identity, normalizer_fn=slim.batch_norm, scope='e_conv3')
+   e_conv3 = lrelu(e_conv3)
    print 'conv3: ', e_conv3
   
-   # fully connected layer with a leaky Relu activation
-   # The 'True' here means that we are flattening the input
-   e_fc1 = lrelu(fc_layer(e_conv2, 512, True, 'e_fc1'))
+   e_conv3_flat = tf.reshape(e_conv3, [batch_size, -1])
+
+   e_fc1 = slim.fully_connected(e_conv3_flat, 256, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='e_fc1')
+   e_fc1 = lrelu(e_fc1)
    print 'fc1: ', e_fc1
-
-   # fully connected layer with a leaky Relu activation
-   # the output from the previous fully connected layer is
-   # already flat, so no need to flatten, hence 'False'
-   e_fc2 = lrelu(fc_layer(e_fc1, 256, False, 'e_fc2'))
+   
+   e_fc2 = slim.fully_connected(e_fc1, 64, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='e_fc2')
+   e_fc2 = lrelu(e_fc2)
    print 'fc2: ', e_fc2
-
-   e_fc3 = lrelu(fc_layer(e_fc2, 128, False, 'e_fc3'))
+   
+   e_fc3 = slim.fully_connected(e_fc2, 32, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='e_fc3')
+   e_fc3 = lrelu(e_fc3)
    print 'fc3: ', e_fc3
    
-   return e_fc3
+   e_fc4 = slim.fully_connected(e_fc3, 8, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='e_fc4')
+   e_fc4 = lrelu(e_fc4)
+   print 'fc4: ', e_fc4
+   return e_fc4
 
 def decoder(x):
    print
    print 'x: ', x
- 
-   d_fc1 = lrelu(fc_layer(x, 256, False, 'd_fc2'))
+
+   d_fc1 = slim.fully_connected(x, 32, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_fc1')
+   d_fc1 = lrelu(d_fc1)
    print 'd_fc1: ', d_fc1
 
-   d_fc2 = lrelu(fc_layer(d_fc1, 512, False, 'd_fc3'))
+   d_fc2 = slim.fully_connected(x, 64, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_fc2')
+   d_fc2 = lrelu(d_fc2)
    print 'd_fc2: ', d_fc2
 
-   # reshape for use in transpose convolution (deconvolution) 
-   # must match conv layers in encoder
-   d_fc2 = tf.reshape(d_fc2, (batch_size, 4, 4, 32))
-   print 'd_fc2: ', d_fc2
+   d_fc3 = slim.fully_connected(x, 256, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_fc3')
+   d_fc3 = lrelu(d_fc3)
+   print 'd_fc3: ', d_fc3
+
+   d_fc3 = tf.reshape(d_fc3, [batch_size, 4, 4, 16])
+   print 'd_fc3: ', d_fc3
  
-   # transpose convolution with a leaky relu activation
-   e_transpose_conv1 = lrelu(conv2d_transpose(d_fc2, 2, 2, 32, 'e_transpose_conv1'))
+   e_transpose_conv1 = slim.convolution2d_transpose(d_fc3, 64, 2, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='e_transpose_conv1')
+   e_transpose_conv1 = lrelu(e_transpose_conv1)
    print 'e_transpose_conv1: ', e_transpose_conv1
 
-   # transpose convolution with a leaky relu activation
-   e_transpose_conv2 = lrelu(conv2d_transpose(e_transpose_conv1, 2, 2, 64, 'e_transpose_conv2'))
+   e_transpose_conv2 = slim.convolution2d_transpose(e_transpose_conv1, 32, 2, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='e_transpose_conv2')
+   e_transpose_conv2 = lrelu(e_transpose_conv2)
    print 'e_transpose_conv2: ', e_transpose_conv2
-   
-   # transpose convolution with a leaky relu activation
-   e_transpose_conv3 = lrelu(conv2d_transpose(e_transpose_conv2, 2, 2, 1, 'e_transpose_conv3'))
-   print 'e_transpose_conv3: ', e_transpose_conv3
 
-   # since transpose convs make the resolution go 4->8->16->32 (because stride 2)
-   # we need to crop to original mnist size (28,28)
+   e_transpose_conv3 = slim.convolution2d_transpose(e_transpose_conv2, 1, 2, stride=2, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='e_transpose_conv3')
+   e_transpose_conv3 = lrelu(e_transpose_conv3)
    e_transpose_conv3 = e_transpose_conv3[:,:28,:28,:]
+   print 'e_transpose_conv3: ', e_transpose_conv3
    return e_transpose_conv3
 
 
@@ -155,7 +165,7 @@ def main(argv=None):
    url = 'http://deeplearning.net/data/mnist/mnist.pkl.gz'
 
    # check if it's already downloaded
-   if not os.path.isfile('./mnist.pkl.gz'):
+   if not os.path.isfile('mnist.pkl.gz'):
       print 'Downloading mnist...'
       with open('mnist.pkl.gz', 'wb') as f:
          r = requests.get(url)
@@ -164,12 +174,14 @@ def main(argv=None):
          else:
             print 'Could not connect to ', url
 
+   print 'opening mnist'
    f = gzip.open('mnist.pkl.gz', 'rb')
    train_set, val_set, test_set = pickle.load(f)
 
    mnist_train = []
    mnist_test = []
 
+   print 'Reading mnist...'
    # reshape mnist to make it easier for understanding convs
    for t,l in zip(*train_set):
       mnist_train.append(np.reshape(t, (28,28,1)))
