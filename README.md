@@ -13,8 +13,8 @@ A checkpoint is included in the `checkpoint` folder, and will automatically be l
 
 ### Results
 
-The images on the left are the true images, and on the right are after encoding and decoding. This was run on the MNIST test set.
+It didn't do too bad considering the images are compressed to only 8 dimensions. Below are some examples.
 
-
+![img](http://i.imgur.com/Qa6HfhT.png)
 
 
