@@ -15,6 +15,6 @@ A checkpoint is included in the `checkpoint` folder, and will automatically be l
 
 It didn't do too bad considering the images are compressed to only 8 dimensions. Below are some examples.
 
-![img](http://i.imgur.com/Qa6HfhT.png)
+![img](http://i.imgur.com/Qa6HfhT.png) ![img](http://i.imgur.com/EGekJBm.png)
 
 
