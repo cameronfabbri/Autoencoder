@@ -1,13 +1,14 @@
 import matplotlib.pyplot as plt
 import cPickle as pickle
 import tensorflow as tf
+import tensorflow.contrib.layers as tcl
 import numpy as np
 import requests
 import random
 import gzip
 import os
 
-batch_size = 64
+batch_size = 128
 
 '''
    Leaky RELU
@@ -17,16 +18,9 @@ def lrelu(x, leak=0.2, name="lrelu"):
 
 
 def encoder(x):
-   
-   e_conv1 = tf.layers.conv2d(x, 16, 5, strides=2,   name='e_conv1')
-   e_conv1 = lrelu(e_conv1) 
-   print 'conv1: ', e_conv1
 
-   e_conv2 = tf.layers.conv2d(e_conv1, 32, 5, strides=2,   name='e_conv2')
-   e_conv2 = lrelu(e_conv2)
-   print 'conv2: ', e_conv2
-   
-   e_conv2_flat = tf.reshape(e_conv2, [batch_size, -1])
+   layer = tcl.fully
+
 
    mean = tf.layers.dense(e_conv2_flat, 32, name='mean')
    #mean = lrelu(mean)
