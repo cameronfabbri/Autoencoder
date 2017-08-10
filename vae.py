@@ -7,7 +7,16 @@ import random
 import gzip
 import os
 
-batch_size = 64
+batch_size = 256
+
+'''
+   Kullback Leibler divergence
+   https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence
+   https://github.com/fastforwardlabs/vae-tf/blob/master/vae.py#L178
+'''
+def kullbackleibler(mu, log_sigma):
+   return -0.5*tf.reduce_sum(1+2*log_sigma-mu**2-tf.exp(2*log_sigma),1)
+
 
 '''
    Leaky RELU
@@ -28,14 +37,17 @@ def encoder(x):
    
    e_conv2_flat = tf.reshape(e_conv2, [batch_size, -1])
 
-   mean = tf.layers.dense(e_conv2_flat, 32, name='mean')
-   #mean = lrelu(mean)
-   
-   stddev = tf.layers.dense(e_conv2_flat, 32, name='stddev')
-   #stddev = lrelu(stddev)
+   '''
+      z is distributed as a multivariate normal with mean z_mean and diagonal
+      covariance values sigma^2
+
+      z ~ N(z_mean, np.exp(z_log_sigma)**2)
+   '''
+   z_mean = tf.layers.dense(e_conv2_flat, 32, name='mean')
+   z_log_sigma = tf.layers.dense(e_conv2_flat, 32, name='stddev')
    
 
-   return mean, stddev
+   return z_mean, z_log_sigma
 
 def decoder(z):
    print
@@ -66,17 +78,17 @@ def train(mnist_train, mnist_test):
       images      = tf.placeholder(tf.float32, [batch_size, 28, 28, 1])
 
       # encode images to 8 dim vector
-      z_mean, z_stddev = encoder(images)
+      z_mean, z_log_sigma = encoder(images)
 
-      samples = tf.random_normal([batch_size, 32],0,1,dtype=tf.float32)
+      # reparameterization trick
+      epsilon = tf.random_normal(tf.shape(z_log_sigma), name='epsilon')
+      z = z_mean + epsilon * tf.exp(z_log_sigma) # N(mu, sigma**2)
 
-      z_pred = z_mean + (z_stddev * samples)
-
-      decoded = decoder(z_pred)
+      decoded = decoder(z)
       
       #reconstructed_loss = -tf.reduce_sum(images*tf.log(1e-10 + decoded) + (1-images)*tf.log(1e-10+1-decoded), 1)
       reconstructed_loss = tf.nn.l2_loss(images-decoded)
-      latent_loss        = 0.5*tf.reduce_sum(tf.square(z_mean) + tf.square(z_stddev) - tf.log(tf.square(z_stddev))-1,1)
+      latent_loss = kullbackleibler(z_mean, z_log_sigma)
 
       cost = tf.reduce_mean(reconstructed_loss+latent_loss)
 
@@ -89,9 +101,7 @@ def train(mnist_train, mnist_test):
       sess = tf.Session()
       sess.run(init)
 
-      try: os.mkdir('images/')
-      except: pass
-      try: os.mkdir('checkpoint/')
+      try: os.makedirs('checkpoint/images/')
       except: pass
 
       ckpt = tf.train.get_checkpoint_state('checkpoint/')
@@ -115,7 +125,7 @@ def train(mnist_train, mnist_test):
          loss_ = sess.run([cost], feed_dict={images:batch_images})[0]
          print 'Step: ' + str(step) + ' Loss: ' + str(loss_)
 
-         if step%1000 == 0:
+         if step%500 == 0:
             print
             print 'Saving model'
             print
@@ -131,8 +141,8 @@ def train(mnist_train, mnist_test):
             c = 0
             for real, dec in zip(batch_images, encode_decode):
                dec, real = np.squeeze(dec), np.squeeze(real)
-               plt.imsave('images/'+str(step)+'_'+str(c)+'real.png', real)
-               plt.imsave('images/'+str(step)+'_'+str(c)+'dec.png', dec)
+               plt.imsave('checkpoint/images/'+str(step)+'_'+str(c)+'real.png', real)
+               plt.imsave('checkpoint/images/'+str(step)+'_'+str(c)+'dec.png', dec)
                if c == 5:
                   break
                c+=1
