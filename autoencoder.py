@@ -8,7 +8,7 @@ import random
 import gzip
 import os
 
-batch_size = 1000
+batch_size = 5000
 
 '''
    Leaky RELU
