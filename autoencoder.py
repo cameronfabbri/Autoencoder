@@ -5,6 +5,7 @@ import tensorflow as tf
 import numpy as np
 import requests
 import random
+import time
 import gzip
 import os
 
@@ -135,8 +136,10 @@ def train(mnist_train, mnist_test):
          batch_images = random.sample(mnist_train, batch_size)
 
          # send through the network
+         s = time.time()
          _, loss_ = sess.run([train_op, loss], feed_dict={images: batch_images})
-         print 'Step: ' + str(step) + ' Loss: ' + str(loss_)
+         t = time.time()-s
+         print 'Step: ' + str(step) + ' Loss: ' + str(loss_) + ' time: ' + str(t)
 
          if step%100 == 0:
             print
