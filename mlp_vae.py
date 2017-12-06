@@ -19,16 +19,10 @@ def lrelu(x, leak=0.2, name="lrelu"):
 
 def encoder(x):
 
-   layer = tcl.fully
-
-
    mean = tf.layers.dense(e_conv2_flat, 32, name='mean')
-   #mean = lrelu(mean)
    
    stddev = tf.layers.dense(e_conv2_flat, 32, name='stddev')
-   #stddev = lrelu(stddev)
    
-
    return mean, stddev
 
 def decoder(z):
@@ -38,7 +32,6 @@ def decoder(z):
    d_fc1 = tf.layers.dense(z, 7*7*32, name='d_fc1')
    d_fc1 = lrelu(d_fc1)
    print 'd_fc1: ', d_fc1
-   d_fc1 = tf.reshape(d_fc1, [batch_size, 7,7,32])
 
    e_transpose_conv1 = tf.layers.conv2d_transpose(d_fc1, 16, 5, strides=2, name='e_transpose_conv1')
    e_transpose_conv1 = lrelu(e_transpose_conv1)
@@ -57,7 +50,7 @@ def train(mnist_train, mnist_test):
       global_step = tf.Variable(0, trainable=False, name='global_step')
 
       # placeholder for mnist images
-      images      = tf.placeholder(tf.float32, [batch_size, 28, 28, 1])
+      images      = tf.placeholder(tf.float32, [batch_size, 28*28, 1])
 
       # encode images to 8 dim vector
       z_mean, z_stddev = encoder(images)
@@ -155,11 +148,11 @@ def main(argv=None):
    print 'Reading mnist...'
    # reshape mnist to make it easier for understanding convs
    for t,l in zip(*train_set):
-      mnist_train.append(np.reshape(t, (28,28,1)))
+      mnist_train.append(np.reshape(t, (28*28,1)))
    for t,l in zip(*val_set):
-      mnist_train.append(np.reshape(t, (28,28,1)))
+      mnist_train.append(np.reshape(t, (28*28,1)))
    for t,l in zip(*test_set):
-      mnist_test.append(np.reshape(t, (28,28,1)))
+      mnist_test.append(np.reshape(t, (28*28,1)))
 
    mnist_train = np.asarray(mnist_train)
    mnist_test  = np.asarray(mnist_test)

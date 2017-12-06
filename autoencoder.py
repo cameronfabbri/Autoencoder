@@ -60,11 +60,11 @@ def decoder(x):
    d_fc1 = lrelu(d_fc1)
    print 'd_fc1: ', d_fc1
 
-   d_fc2 = slim.fully_connected(x, 64, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_fc2')
+   d_fc2 = slim.fully_connected(d_fc1, 64, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_fc2')
    d_fc2 = lrelu(d_fc2)
    print 'd_fc2: ', d_fc2
 
-   d_fc3 = slim.fully_connected(x, 256, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_fc3')
+   d_fc3 = slim.fully_connected(d_fc2, 256, normalizer_fn=slim.batch_norm, activation_fn=tf.identity, scope='d_fc3')
    d_fc3 = lrelu(d_fc3)
    print 'd_fc3: ', d_fc3
 
